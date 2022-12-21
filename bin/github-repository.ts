@@ -1,8 +1,9 @@
-import { Construct } from 'constructs';
-import { App, TerraformStack } from 'cdktf';
-import { Repository } from '@cdktf/provider-github/lib/repository';
-import { GithubProvider } from '@cdktf/provider-github/lib/provider';
 import { BranchDefault } from '@cdktf/provider-github/lib/branch-default';
+import { BranchProtection } from '@cdktf/provider-github/lib/branch-protection';
+import { GithubProvider } from '@cdktf/provider-github/lib/provider';
+import { Repository } from '@cdktf/provider-github/lib/repository';
+import { App, TerraformStack } from 'cdktf';
+import { Construct } from 'constructs';
 
 class GithubConfig extends TerraformStack {
   constructor(scope: Construct, id: string) {
@@ -31,6 +32,17 @@ class GithubConfig extends TerraformStack {
       repository: repository.id,
     });
 
+    new BranchProtection(this, 'mainProtection', {
+      repositoryId: repository.id,
+      pattern: 'main',
+      enforceAdmins: true,
+      allowsDeletions: false,
+      requiredLinearHistory: true,
+      allowsForcePushes: false,
+      requiredStatusChecks: [
+        { strict: true, contexts: ['build', 'pull-request-lint'] },
+      ],
+    });
     // define resources here
   }
 }
