@@ -40,7 +40,7 @@ class GithubConfig extends TerraformStack {
       requiredLinearHistory: true,
       allowsForcePushes: false,
       requiredStatusChecks: [
-        { strict: true, contexts: ['build', 'pull-request-lint'] },
+        { strict: true, contexts: ['build', 'Validate PR title'] },
       ],
     });
     // define resources here
