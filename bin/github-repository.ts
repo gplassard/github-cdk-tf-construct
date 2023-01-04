@@ -2,12 +2,18 @@ import { BranchDefault } from '@cdktf/provider-github/lib/branch-default';
 import { BranchProtection } from '@cdktf/provider-github/lib/branch-protection';
 import { GithubProvider } from '@cdktf/provider-github/lib/provider';
 import { Repository } from '@cdktf/provider-github/lib/repository';
-import { App, TerraformStack } from 'cdktf';
+import { App, S3Backend, TerraformStack } from 'cdktf';
 import { Construct } from 'constructs';
 
 class GithubConfig extends TerraformStack {
   constructor(scope: Construct, id: string) {
     super(scope, id);
+
+    new S3Backend(this, {
+      bucket: 'terraform-state-eu-west-1-1475',
+      key: 'github-cdk-tf-construct/terraform.tfstate',
+      region: 'eu-west-1',
+    });
 
     new GithubProvider(this, 'provider', {
       owner: 'gplassard',
@@ -42,8 +48,10 @@ class GithubConfig extends TerraformStack {
       requiredStatusChecks: [
         { strict: true, contexts: ['build', 'Validate PR title'] },
       ],
+      requiredPullRequestReviews: [
+        { requiredApprovingReviewCount: 0 },
+      ],
     });
-    // define resources here
   }
 }
 
