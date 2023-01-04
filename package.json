@@ -1,8 +1,5 @@
 {
   "name": "github-cdk-tf-construct",
-  "bin": {
-    "github-repository.ts": "bin/github-repository.ts"
-  },
   "scripts": {
     "build": "npx projen build",
     "bump": "npx projen bump",
