@@ -8,5 +8,6 @@ const project = new TypescriptApplicationProject({
   peerDeps: ['cdktf', 'constructs', '@cdktf/provider-github'],
   srcdir: '.',
   gitignore: ['*.tfstate*', 'cdktf.out'],
+  releaseRank: 2,
 });
 project.synth();
