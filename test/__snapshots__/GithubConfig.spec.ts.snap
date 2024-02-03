@@ -67,7 +67,7 @@ exports[`GithubConfig should produce the expected 1`] = `
     "required_providers": {
       "github": {
         "source": "integrations/github",
-        "version": "5.14.0"
+        "version": "5.45.0"
       }
     }
   }
